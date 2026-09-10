@@ -186,10 +186,13 @@ section { padding-block: clamp(4.5rem, 9vw, 8.5rem); }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: .65rem;
   gap: 1.5rem;
   padding-block: 1.05rem;
 }
 .wordmark {
+  min-width: 0;
   font-family: var(--display);
   font-weight: 800;
   font-stretch: 125%;
@@ -201,14 +204,26 @@ section { padding-block: clamp(4.5rem, 9vw, 8.5rem); }
 .masthead nav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  min-width: 0;
   gap: clamp(1rem, 3vw, 2.25rem);
   font-family: var(--display);
   font-size: .85rem;
   font-weight: 600;
 }
+.masthead nav > * { min-width: 0; }
 .masthead nav a { text-decoration: none; opacity: .78; transition: opacity .15s; }
 .masthead nav a:hover { opacity: 1; }
 .masthead nav a.btn { opacity: 1; padding: .6rem 1.15rem; }
+
+/* Below this, the nav can no longer share a row with the wordmark
+   without crowding — give it a deliberate second row instead of
+   letting flex-wrap fall back to an unstyled one. */
+@media (max-width: 520px) {
+  .masthead__in { justify-content: center; }
+  .wordmark { flex: 0 0 100%; text-align: center; }
+  .masthead nav { flex: 0 0 100%; justify-content: center; }
+}
 
 /* ---------- Hero ---------------------------------------- */
 
