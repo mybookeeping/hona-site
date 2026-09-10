@@ -1,0 +1,84 @@
+---
+import Base from "../layouts/Base.astro";
+import Start from "../components/Start.astro";
+---
+
+<Base
+  title="We just met — Hona"
+  description="Hona tells a contractor what a job is costing while there's still time to do something about it. Free for lenders, always."
+  noindex={true}
+>
+
+  <section class="band-ink">
+    <div class="shell">
+      <p class="eyebrow eyebrow--brass">We just met.</p>
+      <h1>Hona tells a contractor what a job is costing while there's still time to do something about it.</h1>
+      <p>
+        Scan the receipt at the counter. It lands on the right phase and
+        category before you're out of the parking lot.
+      </p>
+      <p>
+        Watch each phase against its budget. Not at closeout. Not in April.
+        Today.
+      </p>
+      <p>
+        When the work is done, your lender approves the draw from their
+        phone — with the photos and the numbers already attached.
+      </p>
+    </div>
+  </section>
+
+  <section class="band-billiard">
+    <div class="shell">
+      <p class="eyebrow eyebrow--pale">For lenders</p>
+      <p class="lede">
+        Your borrower's budget stops being a mystery between draws. They
+        submit complete packets because the data was captured as it was
+        spent, not reconstructed the night before.
+      </p>
+      <p class="emphasis">Free for lenders. Always.</p>
+    </div>
+  </section>
+
+  <section class="band-cream cta-section">
+    <div class="shell">
+      <Start />
+      <p class="signature">
+        Jared Watson · Founder<br />
+        <a href="mailto:jared@honafinancial.com">jared@honafinancial.com</a>
+      </p>
+      <p class="lede closing">
+        I'd rather hear about your last job than send you a brochure.
+        <a href="mailto:jared@honafinancial.com?subject=We%20just%20met">Email me.</a>
+      </p>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .cta-section .shell { text-align: center; }
+
+  .emphasis {
+    font-family: var(--display);
+    font-weight: 700;
+    font-stretch: 108%;
+    font-size: 1.15rem;
+    color: var(--brass-l);
+  }
+
+  .signature {
+    margin-top: 2rem;
+    font-family: var(--display);
+    font-size: .85rem;
+    letter-spacing: .02em;
+    color: var(--walnut-tx);
+  }
+  .signature a { color: inherit; }
+
+  .closing { margin: 1.75rem auto 0; }
+  .closing a {
+    color: var(--brass);
+    border-bottom: 1px solid var(--brass);
+  }
+</style>

@@ -9,7 +9,7 @@ change this site without re-deriving any of it.
 
 The Hona Financial marketing site and utility pages. Astro, plain CSS, no
 Tailwind, no component library, no build config beyond the defaults. Deployed
-to Vercel. Ten pages plus a 404.
+to Cloudflare. Ten pages plus a 404.
 
 **Why plain CSS:** the site has a strong custom identity and one maintainer.
 A utility framework would have added a config file to break and a build step to
@@ -19,18 +19,25 @@ debug, for no gain at this size.
 
 ## Deploying
 
+Hosted on Cloudflare, project name `hona`. The preview domain is a
+.workers.dev address, so confirm in the dashboard whether it is a
+Pages project or a Worker before using any CLI command.
+
+Deploys are MANUAL — no git integration, no CI.
+
 ```bash
-cd ~/Development/hona-site
-npx vercel --prod
+npm run build      # produces dist/
 ```
 
-That's the whole thing. First run asks you to log in and answer a few setup
-questions — accept the defaults, Astro is detected automatically.
+Then upload the `dist/` folder through the Cloudflare dashboard.
+
+NOT Vercel. The old `npx vercel --prod` instruction was wrong and would
+stand up a duplicate site.
 
 Local preview while editing:
 
 ```bash
-npm run dev          # http://localhost:4321
+npm run dev        # http://localhost:4321
 ```
 
 ---
@@ -54,7 +61,7 @@ link and reads *Claim Founders pricing*. Flip to `false` when the fiftieth
 founder subscribes; the whole site switches to Standard, including the pricing
 paragraph on the homepage.
 
-Change either, run `npx vercel --prod`, done.
+Change either, deploy (see Deploying above), done.
 
 A server-side founder counter is the durable version and belongs with the
 Founder 50-cap work in Phase 2. You cross that threshold exactly once and
@@ -129,6 +136,18 @@ in `src/pages/index.astro` and alternate `plate--flip` so the images zig-zag.
 
 ---
 
+## Conference page (`/meet`)
+
+QR destination for Jared's conference business card. Replaces the
+`/start-contractor` / `/start-lender` split floated in earlier notes — one
+card carries one QR, and there's no way to know in advance whether the
+reader is a contractor or a lender. `/meet` pitches the contractor first,
+then a "For lenders" section for the reader who turns out to be the other
+audience. Built from the same `Start` component, tokens and band classes
+as the rest of the site — no new colours, fonts, or one-off styling.
+
+---
+
 ## Planned changes, so a future thread has the context
 
 **Home page chart slideshow (Phase 3, September).** Replace the compass dial on
@@ -140,11 +159,6 @@ The dial component is already built to be swapped: `StateDial` is
 self-contained, so a `ChartDial` with the same shape drops into the same slot
 in `src/pages/index.astro`. Same cycling pattern, same track underneath, just
 images instead of filter states.
-
-**Conference attribution (September).** `/start-contractor` and `/start-lender`
-as QR destinations, near-identical to the homepage but with a tracking
-parameter, so you know which of the three October conferences produced which
-signup.
 
 **Web app (Phase 2 at the earliest).** A browser version of Hona itself, not
 this site. Hona's navigation is swipe-based, so it's a navigation redesign
