@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+import Compass from "../components/Compass.astro";
+---
+<Base title="Page not found — Hona" noindex={true}>
+  <section class="band-cream on-cream slip">
+    <div class="shell slip__in">
+      <div class="mark"><Compass state="st-none" plain={true} /></div>
+      <h1 style="font-size:clamp(1.9rem,1.4rem+2vw,2.8rem)">This page isn&rsquo;t here</h1>
+      <p style="margin-top:1.25rem">
+        The link may be old, or the address slightly off. Everything else is
+        where you left it.
+      </p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn--ink" href="/">Back to the start</a>
+        <a class="btn btn--ghost" href="/support" style="border-color:rgba(20,22,26,.3)">Support</a>
+      </div>
+    </div>
+  </section>
+</Base>

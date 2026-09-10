@@ -1,0 +1,51 @@
+---
+import Compass from "./Compass.astro";
+
+interface Props { size?: string; plain?: boolean; }
+const { size = "min(340px, 74vw)", plain = false } = Astro.props;
+---
+
+<div class="instrument" data-dial>
+  <div class="instrument__mark" style={`width:${size}`}>
+    <Compass state="st-none" plain={plain} />
+  </div>
+  <p class="instrument__caption js-caption" aria-live="polite"></p>
+  <div class="track" style={`width:${size}`} aria-hidden="true">
+    <span data-step="0">No request</span>
+    <span data-step="1">Requested</span>
+    <span data-step="2">Pending</span>
+    <span data-step="3">Approved</span>
+  </div>
+</div>
+
+<script>
+  const STATES = [
+    { cls: "st-none",      label: "No request", color: "#8A8F98" },
+    { cls: "st-requested", label: "Requested", color: "#9E2740" },
+    { cls: "st-pending",   label: "Pending",   color: "#D4B15C" },
+    { cls: "st-approved",  label: "Approved",  color: "#7FBE8B" },
+  ];
+
+  document.querySelectorAll("[data-dial]").forEach((dial) => {
+    const mark = dial.querySelector(".mark");
+    const caption = dial.querySelector(".js-caption");
+    const steps = Array.from(dial.querySelectorAll(".track span"));
+    if (!mark || !caption) return;
+
+    const paint = (i) => {
+      const s = STATES[i];
+      STATES.forEach((x) => mark.classList.remove(x.cls));
+      mark.classList.add(s.cls);
+      caption.textContent = s.label;
+      caption.style.color = s.color;
+      steps.forEach((el, n) => el.setAttribute("data-on", String(n === i)));
+    };
+
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (still.matches) { paint(3); return; }
+
+    let i = 0;
+    paint(0);
+    setInterval(() => { i = (i + 1) % STATES.length; paint(i); }, 2600);
+  });
+</script>

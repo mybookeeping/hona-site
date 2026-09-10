@@ -1,0 +1,28 @@
+---
+import Base from "../../layouts/Base.astro";
+import Compass from "../../components/Compass.astro";
+import { STRIPE, CHECKOUT_LIVE } from "../../config/checkout";
+---
+<Base title="Checkout cancelled — Hona" noindex={true}>
+  <section class="band-cream on-cream slip">
+    <div class="shell slip__in">
+      <div class="mark"><Compass state="st-none" plain={true} /></div>
+      <h1 style="font-size:clamp(1.9rem,1.4rem+2vw,2.8rem)">Checkout cancelled</h1>
+      <p style="margin-top:1.25rem">No charge was made. You can return to Hona and subscribe whenever you&rsquo;re ready.</p>
+
+      <div class="offer">
+        <p class="eyebrow" style="margin-bottom:.75rem">Keep your records</p>
+        <p style="margin:0 0 1.25rem">
+          If you would rather not subscribe but want your projects, receipts and
+          draw history to stay where they are, View&nbsp;Only keeps everything
+          readable for $5 a month.
+        </p>
+        {CHECKOUT_LIVE
+          ? <a class="btn btn--ink" href={STRIPE.viewOnly}>Switch to View Only &mdash; $5/mo</a>
+          : <span class="btn btn--ink is-soon" aria-disabled="true">View Only &mdash; coming soon</span>}
+      </div>
+
+      <a class="btn btn--ghost" href="honamvp://" style="margin-top:1.5rem;border-color:rgba(20,22,26,.3)">Open Hona</a>
+    </div>
+  </section>
+</Base>

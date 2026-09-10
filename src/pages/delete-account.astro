@@ -1,0 +1,34 @@
+---
+import Base from "../layouts/Base.astro";
+import Compass from "../components/Compass.astro";
+---
+<Base title="Delete your Hona account" description="How to delete your Hona account and what happens to your data.">
+  <section class="band-cream on-cream slip">
+    <div class="shell slip__in" style="max-width:44rem">
+      <div class="mark"><Compass state="st-none" plain={true} /></div>
+      <h1 style="font-size:clamp(1.9rem,1.4rem+2vw,2.8rem)">Delete your account</h1>
+
+      <p style="margin-top:1.5rem">
+        You can delete your Hona account from inside the app. Open
+        <strong>Administration</strong>, scroll to the bottom, and choose
+        <strong>Cancel Subscription &amp; Delete Account</strong>. Deletion is
+        immediate and cannot be undone.
+      </p>
+
+      <p style="margin-top:1.5rem">
+        This removes your projects, receipts, budgets, progress photographs,
+        stakeholder grants and account record. Records of draw requests a lender
+        approved are retained with your identity removed, because a third party
+        released funds against them — the transaction remains, nothing in it
+        identifies you. This is set out in full in our
+        <a href="/privacy" style="border-bottom:1px solid currentColor;text-decoration:none">Privacy Policy</a>.
+      </p>
+
+      <p class="fine" style="margin-top:2rem">
+        If you can no longer sign in, write to
+        <a href="mailto:support@honafinancial.com?subject=Account%20deletion%20request" style="border-bottom:1px solid currentColor;text-decoration:none">support@honafinancial.com</a>
+        from the address on the account and we will delete it for you.
+      </p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,184 @@
+---
+import Base from "../layouts/Base.astro";
+import StateDial from "../components/StateDial.astro";
+import Start from "../components/Start.astro";
+import { FOUNDERS_OPEN, CHECKOUT_LIVE } from "../config/checkout";
+---
+
+<Base title="Hona — Know what a job is costing while you can still do something about it">
+
+  <!-- ===== HERO ===================================================== -->
+  <section class="split">
+    <div class="split__dark">
+      <div>
+        <p class="eyebrow eyebrow--brass">Hona Financial</p>
+        <h1>Know what a job is costing while you can still do something about it.</h1>
+        <p class="lede">
+          Scan the receipt at the counter. Watch the phase against its budget.
+          When the work is done, your lender approves the draw from their phone.
+        </p>
+        <div class="btn-row">
+          <Start />
+          <a class="btn btn--ghost" href="/lenders">I'm a lender</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="split__light on-cream">
+      <StateDial size="min(300px, 66vw)" plain={true} />
+    </div>
+  </section>
+
+  <!-- ===== THE PROBLEM ============================================== -->
+  <section class="band-cream">
+    <div class="shell">
+      <p class="eyebrow">The problem</p>
+      <h2 style="max-width:22ch">Most contractors find out a job lost money after it's finished.</h2>
+      <div class="duo" style="margin-top:2.5rem">
+        <p>
+          Receipts end up in a truck console, a text thread, and a shoebox.
+          Subcontractor invoices arrive weeks late. The numbers only come
+          together when the bookkeeper closes the job — and by then every
+          decision that could have protected the margin has already been made.
+        </p>
+        <p>
+          Hona moves that moment forward. Costs land against a phase and a
+          category the day they happen, so a category running hot is something
+          you see in week three rather than something you learn in month five.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ============================================= -->
+  <section class="band-deep" id="how">
+    <div class="shell">
+      <p class="eyebrow">How it works</p>
+      <h2 style="max-width:18ch;margin-bottom:clamp(3rem,6vw,4.5rem)">Three things, done properly.</h2>
+
+      <div class="plates">
+
+        <article class="plate">
+          <div>
+            <span class="plate__no">One</span>
+            <h3>Capture the cost where it happens</h3>
+            <p>
+              Photograph the receipt in the parking lot. Hona reads the
+              merchant, date, tax and total, and you assign it to a project,
+              phase and category before you've put the truck in gear. Split a
+              receipt across categories, record a return, attach a tracking
+              number — the ledger stays true to what actually happened.
+            </p>
+          </div>
+          <div class="plate__art">
+            <img src="/screens/scan.png" alt="Receipt capture in Hona, showing a scanned Home Depot receipt ready to be assigned." width="390" height="844" loading="lazy" />
+          </div>
+        </article>
+
+        <article class="plate plate--flip">
+          <div>
+            <span class="plate__no">Two</span>
+            <h3>Watch the budget by phase and category</h3>
+            <p>
+              Every project breaks down the way a job actually runs — phases,
+              then categories, then the receipts underneath. Estimated against
+              actual, all the way down. Over budget shows in one color and one
+              color only, so a screen with nothing red on it means something.
+            </p>
+          </div>
+          <div class="plate__art">
+            <img src="/screens/ledger.png" alt="The Hona ledger, showing a project broken into phases and categories with estimated and actual costs." width="390" height="844" loading="lazy" />
+          </div>
+        </article>
+
+        <article class="plate">
+          <div>
+            <span class="plate__no">Three</span>
+            <h3>Request the draw. Get it approved.</h3>
+            <p>
+              Tap the mark on a finished phase and your lender is notified with
+              the costs and the progress photos behind it. They review it on
+              their phone and approve, or send it back with a note about what
+              they need first. No package to assemble. No week of waiting to
+              find out you were missing one photograph.
+            </p>
+          </div>
+          <div class="plate__art">
+            <img src="/screens/network.png" alt="The lender's view of a Hona project, showing the current draw request, holdback remaining, and draw status by phase." width="390" height="844" loading="lazy" />
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LENDERS ================================================== -->
+  <section class="band-billiard">
+    <div class="shell duo" style="align-items:center">
+      <div>
+        <p class="eyebrow eyebrow--pale">For hard money lenders</p>
+        <h2>Free for your borrowers' lenders. Permanently.</h2>
+        <p style="margin-top:1.5rem">
+          A lender you're funded by gets read-only access to the project you
+          share with them — budgets, receipts, progress photos, and the draw
+          requests you submit. They pay nothing, ever. The access is yours to
+          grant and yours to revoke, and the project history stays with your
+          company when the loan does not.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--ghost" href="/lenders">How lender access works</a>
+        </div>
+      </div>
+      <div>
+        <ul class="ledger">
+          <li><span>Budget and actual, by phase</span><span>Read only</span></li>
+          <li><span>Receipts behind every figure</span><span>Read only</span></li>
+          <li><span>Progress photos</span><span>Read only</span></li>
+          <li><span>Draw requests</span><span>Approve</span></li>
+          <li><span>Cost of access</span><span>None</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHO ====================================================== -->
+  <section class="band-cream">
+    <div class="shell">
+      <p class="eyebrow">Who Hona is for</p>
+      <h2 style="max-width:20ch">Anyone who buys the materials.</h2>
+      <div class="duo" style="margin-top:2.5rem">
+        <p>
+          General contractors and remodelers running their own budgets. Fix and
+          flip investors managing their own jobs. Anyone borrowing against a
+          project who would rather submit a draw in ten seconds than assemble
+          one over a weekend.
+        </p>
+        <p>
+          If a general contractor buys the materials on your projects, they're
+          the one who should be holding the phone — and Hona is built so that
+          the lender relationship still belongs to you.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== START ==================================================== -->
+  <section class="band-ink" id="start">
+    <div class="shell" style="text-align:center">
+      <p class="eyebrow eyebrow--brass">Get started</p>
+      <h2 style="max-width:20ch;margin-inline:auto">Fourteen days free. Cancel from inside the app.</h2>
+      <p style="margin:1.75rem auto 0;max-width:46ch">
+        {FOUNDERS_OPEN
+          ? "Standard is $29 a month. The first fifty contractors keep Founders pricing at $19 a month for as long as they stay. Lender access is free for everyone, always."
+          : "Standard is $29 a month. Lender access is free for everyone, always."}
+      </p>
+      <p style="margin:1rem auto 0;max-width:46ch;font-size:.95rem;opacity:.7">
+        {CHECKOUT_LIVE ? "" : "Hona is in final testing. Subscriptions open when the app reaches the App Store and Google Play."}
+      </p>
+      <div class="btn-row" style="justify-content:center">
+        <Start />
+      </div>
+    </div>
+  </section>
+
+</Base>

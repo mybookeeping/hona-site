@@ -1,0 +1,105 @@
+---
+import "../styles/global.css";
+import Compass from "../components/Compass.astro";
+import Start from "../components/Start.astro";
+import { CHECKOUT_LIVE, startUrl, startLabel } from "../config/checkout";
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = "Hona is the financial operating system for project-based construction businesses. Scan receipts, track job costs by phase and category, and let your lender approve draw requests from their phone.",
+  noindex = false,
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Hona Financial" />
+
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..800;1,62..125,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+  <header class="masthead">
+    <div class="shell masthead__in">
+      <a class="wordmark" href="/">HONA</a>
+      <nav>
+        <a href="/lenders">For lenders</a>
+        <a href="/#how">How it works</a>
+        <Start />
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer__grid">
+        <div>
+          <div style="width:52px;margin-bottom:1.25rem;filter:invert(1) brightness(1.1)">
+            <Compass state="st-approved" plain={true} />
+          </div>
+          <p style="max-width:34ch;margin:0">
+            The financial operating system for project-based construction
+            businesses.
+          </p>
+        </div>
+
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="/#how">How it works</a></li>
+            <li><a href="/lenders">For lenders</a></li>
+            <li>{CHECKOUT_LIVE ? <a href={startUrl}>{startLabel}</a> : <span style="opacity:.6">{startLabel} — coming soon</span>}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="mailto:support@honafinancial.com">support@honafinancial.com</a></li>
+            <li><a href="https://www.facebook.com/honafinancial" rel="noopener">Facebook</a></li>
+            <li><a href="https://whatsapp.com/channel/0029Vb8i1qF1iUxbDsdSHX0o" rel="noopener">WhatsApp channel</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href="/terms">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__base">
+        <span>&copy; {year} Proprietary Solutions LLC DBA Hona Financial</span>
+        <span>Queen Creek, Arizona</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

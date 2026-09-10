@@ -1,0 +1,127 @@
+---
+import Base from "../layouts/Base.astro";
+import StateDial from "../components/StateDial.astro";
+---
+
+<Base
+  title="Hona for lenders — free draw request access, granted by your borrower"
+  description="Hona gives hard money lenders free read-only access to a borrower's project: budgets, receipts, progress photos, and draw requests you can approve from your phone."
+>
+
+  <section class="split">
+    <div class="split__dark">
+      <div>
+        <p class="eyebrow eyebrow--brass">For lenders</p>
+        <h1 style="font-size:clamp(2.25rem,1.5rem+3.4vw,3.9rem)">
+          See the receipts behind the draw. Approve it from your phone.
+        </h1>
+        <p class="lede">
+          Your borrower grants you access. Every request arrives with the costs,
+          the photographs and the phase already attached. You approve, or you
+          send it back with a note. There is nothing to buy and nothing for your
+          team to install.
+        </p>
+      </div>
+    </div>
+    <div class="split__light on-cream">
+      <StateDial size="min(280px, 64vw)" plain={true} />
+    </div>
+  </section>
+
+  <section class="band-cream">
+    <div class="shell">
+      <p class="eyebrow">What's different</p>
+      <h2 style="max-width:24ch">Every other draw platform starts at the draw request.</h2>
+
+      <div class="duo" style="margin-top:2.5rem">
+        <p>
+          Draw management software is sold to the lender and the borrower gets
+          an account because you require one. It begins the moment a request is
+          submitted, which means the numbers inside it are whatever the
+          borrower typed that morning.
+        </p>
+        <p>
+          Hona is bought by the contractor, for their own job costing. The draw
+          request is assembled from receipts they were already capturing to run
+          their business — so what you're approving is the work, documented as
+          it happened, not a summary written to get paid.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-deep">
+    <div class="shell">
+      <p class="eyebrow">What you get</p>
+      <h2 style="max-width:20ch;margin-bottom:2.5rem">Everything you'd otherwise ask for by email.</h2>
+
+      <div class="duo">
+        <div>
+          <h3 style="margin-bottom:.75rem">On every project shared with you</h3>
+          <p>
+            Budget against actual, phase by phase and category by category. The
+            receipts sitting behind each figure. Progress photographs as the
+            work completes. Draw request status, live.
+          </p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:.75rem">When a draw comes in</h3>
+          <p>
+            An email tells you a phase is ready. Open the project, look at the
+            photos and the costs, and tap the mark to approve. Press and hold
+            instead to send it back with a note about what you need first.
+          </p>
+        </div>
+      </div>
+
+      <hr class="rule" style="margin:3rem 0" />
+
+      <p style="max-width:56ch">
+        Approving in Hona records your approval. Funding happens through your
+        own process, on your own rails, exactly as it does today. Hona does not
+        move money and never will.
+      </p>
+    </div>
+  </section>
+
+  <section class="band-billiard">
+    <div class="shell">
+      <p class="eyebrow eyebrow--pale">The terms</p>
+      <h2 style="max-width:22ch">Free, permanently, and the contractor holds the keys.</h2>
+
+      <ul class="ledger" style="max-width:52ch">
+        <li><span>Cost to you</span><span>None</span></li>
+        <li><span>Cost to your borrower</span><span>$29 / month</span></li>
+        <li><span>Who grants access</span><span>The contractor</span></li>
+        <li><span>Who can revoke it</span><span>The contractor</span></li>
+        <li><span>Who keeps the history</span><span>The contractor</span></li>
+      </ul>
+
+      <p style="margin-top:2.5rem;max-width:56ch">
+        That last line is deliberate. Competing portals are white-labelled under
+        the lender's brand, so when a borrower changes lenders their project
+        history disappears with the old relationship. In Hona the record belongs
+        to the contractor and is shared with you — which is why a borrower will
+        actually keep it current.
+      </p>
+    </div>
+  </section>
+
+  <section class="band-ink">
+    <div class="shell" style="text-align:center">
+      <p class="eyebrow eyebrow--brass">Next step</p>
+      <h2 style="max-width:22ch;margin-inline:auto">Which borrower should see this first?</h2>
+      <p style="margin:1.75rem auto 0;max-width:48ch">
+        Tell us who to reach out to. We'll get them set up, and you'll receive
+        an invitation to their project once they've added you. If you'd rather
+        talk it through first, write to us directly.
+      </p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn--brass" href="mailto:support@honafinancial.com?subject=Borrower%20introduction">
+          Introduce a borrower
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Base>

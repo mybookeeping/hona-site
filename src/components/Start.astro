@@ -1,0 +1,18 @@
+---
+/**
+ * The single call to action. Renders a live link, or an inert
+ * "Coming soon" chip while CHECKOUT_LIVE is false — so there is one
+ * switch to throw on launch day rather than a hunt through the pages.
+ */
+import { CHECKOUT_LIVE, startUrl, startLabel } from "../config/checkout";
+
+interface Props { variant?: string; label?: string; class?: string; }
+const { variant = "btn--brass", label, class: klass = "" } = Astro.props;
+const text = label ?? startLabel;
+---
+
+{CHECKOUT_LIVE ? (
+  <a class={`btn ${variant} ${klass}`} href={startUrl}>{text}</a>
+) : (
+  <span class={`btn ${variant} is-soon ${klass}`} aria-disabled="true">Coming soon</span>
+)}

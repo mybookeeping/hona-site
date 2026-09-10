@@ -1,0 +1,46 @@
+---
+/**
+ * The Hona mark — the real logo file, with the four draw states applied
+ * as CSS filters so one asset carries every state.
+ *
+ *   .st-none       dimmed        no draw requested
+ *   .st-requested  black & white contractor has asked
+ *   .st-pending    black & white lender wants more first
+ *   .st-approved   full color   lender has approved
+ *
+ * On dark grounds the mark sits on a cream disc — an instrument face
+ * mounted on a panel — because the logo's linework is black.
+ */
+interface Props { class?: string; state?: string; plain?: boolean; }
+const { class: klass = "", state = "st-approved", plain = false } = Astro.props;
+---
+
+<span class={`markwrap ${plain ? "markwrap--plain" : ""} ${klass}`}>
+  <img class={`mark ${state}`} src="/logo/compass.png" alt="" width="900" height="900" />
+</span>
+
+<style is:global>
+  .markwrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--cream);
+    border-radius: 50%;
+    padding: 11%;
+    box-sizing: border-box;
+  }
+  .markwrap--plain { background: none; padding: 0; }
+
+  .mark {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: filter .55s ease, opacity .55s ease;
+  }
+
+  .mark.st-none      { filter: grayscale(1) contrast(.35) brightness(1.55); opacity: .55; }
+  .mark.st-requested,
+  .mark.st-pending   { filter: grayscale(1); opacity: 1; }
+  .mark.st-approved  { filter: none; opacity: 1; }
+</style>
