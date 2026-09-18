@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Compass from "../components/Compass.astro";
+import OpenHona from "../components/OpenHona.astro";
 ---
 <Base title="Email confirmed — Hona" noindex={true}>
   <section class="band-cream on-cream slip">
@@ -8,7 +9,7 @@ import Compass from "../components/Compass.astro";
       <div class="mark"><Compass state="st-approved" plain={true} /></div>
       <h1 style="font-size:clamp(1.9rem,1.4rem+2vw,2.8rem)">Your email is confirmed</h1>
       <p style="margin-top:1.25rem">Open Hona and sign in to continue.</p>
-      <a class="btn btn--ink" href="honamvp://sign-in" style="margin-top:1.75rem">Open Hona</a>
+      <OpenHona deepLink="honamvp://sign-in" variant="btn--ink" style="margin-top:1.75rem" />
     </div>
   </section>
 </Base>

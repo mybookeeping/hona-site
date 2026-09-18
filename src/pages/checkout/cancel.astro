@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Compass from "../../components/Compass.astro";
+import OpenHona from "../../components/OpenHona.astro";
 import { STRIPE, CHECKOUT_LIVE } from "../../config/checkout";
 ---
 <Base title="Checkout cancelled — Hona" noindex={true}>
@@ -22,7 +23,11 @@ import { STRIPE, CHECKOUT_LIVE } from "../../config/checkout";
           : <span class="btn btn--ink is-soon" aria-disabled="true">View Only &mdash; coming soon</span>}
       </div>
 
-      <a class="btn btn--ghost" href="honamvp://" style="margin-top:1.5rem;border-color:rgba(20,22,26,.3)">Open Hona</a>
+      <OpenHona
+        variant="btn--ghost"
+        style="margin-top:1.5rem"
+        linkStyle="border-color:rgba(20,22,26,.3)"
+      />
     </div>
   </section>
 </Base>

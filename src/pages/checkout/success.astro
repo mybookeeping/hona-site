@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Compass from "../../components/Compass.astro";
+import OpenHona from "../../components/OpenHona.astro";
 ---
 <Base title="You're subscribed — Hona" noindex={true}>
   <section class="band-cream on-cream slip">
@@ -8,8 +9,7 @@ import Compass from "../../components/Compass.astro";
       <div class="mark"><Compass state="st-approved" plain={true} /></div>
       <h1 style="font-size:clamp(1.9rem,1.4rem+2vw,2.8rem)">You&rsquo;re subscribed</h1>
       <p style="margin-top:1.25rem">Your Hona account is now active. Tap below to return to the app.</p>
-      <a class="btn btn--ink" href="honamvp://" style="margin-top:1.75rem">Open Hona</a>
-      <p class="fine">If the app doesn&rsquo;t open automatically, launch Hona from your home screen.</p>
+      <OpenHona variant="btn--ink" style="margin-top:1.75rem" />
     </div>
   </section>
 </Base>

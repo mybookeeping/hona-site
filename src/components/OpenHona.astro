@@ -1,0 +1,46 @@
+---
+/**
+ * Attempts the honamvp:// deep link on click, then falls back after
+ * ~1500ms if the page is still visible (no app installed, or desktop).
+ */
+const HONA_LINK = "https://honafinancial.com"; // -> TestFlight, then App Store
+
+interface Props {
+  deepLink?: string;
+  variant?: string;
+  style?: string;
+  linkStyle?: string;
+}
+const {
+  deepLink = "honamvp://",
+  variant = "btn--ink",
+  style = "",
+  linkStyle = "",
+} = Astro.props;
+---
+
+<div
+  class="open-hona"
+  style={style}
+  data-deep-link={deepLink}
+  data-hona-link={HONA_LINK}
+>
+  <a class={`btn ${variant}`} href={deepLink} style={linkStyle} data-role="attempt">Open Hona</a>
+</div>
+
+<script>
+  document.querySelectorAll(".open-hona").forEach((el) => {
+    var honaLink = el.getAttribute("data-hona-link");
+    var attempt = el.querySelector('[data-role="attempt"]');
+    if (!attempt) return;
+
+    attempt.addEventListener("click", function () {
+      setTimeout(function () {
+        if (document.visibilityState !== "visible") return;
+        el.innerHTML =
+          'Don’t have the app? <a href="' + honaLink + '">Get Hona</a>';
+      }, 1500);
+    });
+  });
+</script>
+
