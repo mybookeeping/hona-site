@@ -1,6 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
 import Start from "../components/Start.astro";
+
+const DEFAULT_GRANT_CODE = "HONA26";
 ---
 
 <Base
@@ -37,6 +39,71 @@ import Start from "../components/Start.astro";
         spent, not reconstructed the night before.
       </p>
       <p class="emphasis">Free for lenders. Always.</p>
+    </div>
+  </section>
+
+  <section class="band-cream signup-section">
+    <div class="shell">
+      <div class="offer grant-offer">
+        <p class="eyebrow" style="margin-bottom:.75rem">Conference offer</p>
+        <p class="grant-code" id="grantCode">{DEFAULT_GRANT_CODE}</p>
+        <p>30 days free when you sign up with this code.</p>
+      </div>
+
+      <form id="signupForm" novalidate>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" />
+        </div>
+
+        <fieldset class="role-group">
+          <legend>I'm a</legend>
+          <div class="role-options">
+            <label class="role-option">
+              <input type="radio" name="role" value="contractor" required />
+              <span>Contractor</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="lender" />
+              <span>Lender</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="other" />
+              <span>Other</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="hp" aria-hidden="true">
+          <label for="website">Leave this field blank</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div id="signupMsg"></div>
+
+        <button id="signupSubmit" type="submit" class="btn btn--brass" style="width:100%;justify-content:center">
+          Claim my 30 days
+        </button>
+
+        <p class="founders-note">
+          Founders pricing is limited to the first 50 subscribers, held for
+          as long as the subscription remains active and continuous; if it
+          lapses the rate is released and cannot be reclaimed.
+        </p>
+      </form>
+
+      <div id="signupDone" hidden>
+        <p class="lede">You're in.</p>
+        <p>We'll email your download link the moment Hona is live.</p>
+      </div>
     </div>
   </section>
 
@@ -81,4 +148,161 @@ import Start from "../components/Start.astro";
     color: var(--brass);
     border-bottom: 1px solid var(--brass);
   }
+
+  .signup-section .shell { max-width: 30rem; }
+
+  .grant-offer { text-align: left; }
+  .grant-code {
+    font-family: var(--display);
+    font-weight: 800;
+    font-stretch: 120%;
+    font-size: 1.9rem;
+    letter-spacing: .04em;
+    color: var(--brass-l);
+    margin: 0 0 .6rem;
+  }
+
+  #signupForm { text-align: left; margin-top: 2rem; }
+
+  .field { margin-bottom: 1.25rem; }
+  .field label {
+    display: block;
+    font-family: var(--display);
+    font-size: .78rem;
+    font-weight: 700;
+    font-stretch: 112%;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--walnut);
+    margin-bottom: .5rem;
+  }
+  .field input {
+    width: 100%;
+    padding: .85rem 1rem;
+    font-size: 1rem;
+    font-family: var(--body);
+    border: 1px solid rgba(20,22,26,.22);
+    border-radius: 2px;
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .role-group { border: 0; padding: 0; margin: 0 0 1.5rem; }
+  .role-group legend {
+    font-family: var(--display);
+    font-size: .78rem;
+    font-weight: 700;
+    font-stretch: 112%;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--walnut);
+    margin-bottom: .6rem;
+    padding: 0;
+  }
+  .role-options { display: flex; flex-wrap: wrap; gap: .6rem; }
+  .role-option { position: relative; }
+  .role-option input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .role-option span {
+    display: inline-block;
+    padding: .55rem 1.05rem;
+    border: 1px solid rgba(20,22,26,.28);
+    border-radius: 2px;
+    font-family: var(--display);
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--ink);
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .role-option input:checked + span {
+    background: var(--brass);
+    border-color: var(--brass);
+  }
+  .role-option input:focus-visible + span {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+  }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .founders-note { font-size: .85rem; color: var(--walnut-tx); margin-top: 1.5rem; }
+
+  .signup-msg { padding: .85rem 1rem; border-radius: 2px; font-size: .95rem; margin-top: 1.25rem; text-align: left; }
+  .signup-msg--bad {
+    background: color-mix(in srgb, var(--maroon) 10%, white);
+    color: var(--maroon);
+    border: 1px solid color-mix(in srgb, var(--maroon) 30%, white);
+  }
+
+  #signupDone { text-align: left; margin-top: 2rem; }
 </style>
+
+<script>
+  import { supabase } from "../lib/supabase";
+
+  (function () {
+    var codeEl = document.getElementById("grantCode");
+    var raw = (new URLSearchParams(location.search).get("c") || "").toUpperCase();
+    if (/^[A-Z0-9]{4,12}$/.test(raw)) codeEl.textContent = raw;
+    var grantCode = codeEl.textContent;
+
+    var form = document.getElementById("signupForm");
+    var submitBtn = document.getElementById("signupSubmit");
+    var msgEl = document.getElementById("signupMsg");
+    var doneEl = document.getElementById("signupDone");
+
+    function showMsg(text) {
+      msgEl.innerHTML = '<p class="signup-msg signup-msg--bad">' + text + "</p>";
+    }
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      msgEl.innerHTML = "";
+
+      var website = form.elements.website.value;
+      var name = form.elements.name.value.trim();
+      var email = form.elements.email.value.trim();
+      var phone = form.elements.phone.value.trim();
+      var roleInput = form.querySelector('input[name="role"]:checked');
+
+      if (website) {
+        // Honeypot tripped — behave as if it worked, write nothing.
+        form.hidden = true;
+        doneEl.hidden = false;
+        return;
+      }
+
+      if (!name) return showMsg("Enter your name.");
+      if (!email) return showMsg("Enter your email.");
+      if (!roleInput) return showMsg("Choose contractor, lender, or other.");
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending";
+
+      supabase
+        .from("meet_signups")
+        .insert({
+          name: name,
+          email: email,
+          phone: phone || null,
+          role: roleInput.value,
+          grant_code: grantCode,
+        })
+        .then(function (r) {
+          if (r.error) throw r.error;
+          form.hidden = true;
+          doneEl.hidden = false;
+        })
+        .catch(function () {
+          showMsg("Something went wrong. Try again, or email jared@honafinancial.com directly.");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Claim my 30 days";
+        });
+    });
+  })();
+</script>
