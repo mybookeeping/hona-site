@@ -8,15 +8,24 @@ interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogUrl?: string;
 }
 
 const {
   title,
   description = "Hona is the financial operating system for project-based construction businesses. Scan receipts, track job costs by phase and category, and let your lender approve draw requests from their phone.",
   noindex = false,
+  ogTitle = title,
+  ogDescription = description,
+  ogImage,
+  ogUrl,
 } = Astro.props;
 
 const year = new Date().getFullYear();
+const pageUrl = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -27,12 +36,18 @@ const year = new Date().getFullYear();
   <title>{title}</title>
   <meta name="description" content={description} />
   {noindex && <meta name="robots" content="noindex" />}
-  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  <link rel="canonical" href={pageUrl} />
 
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
+  <meta property="og:title" content={ogTitle} />
+  <meta property="og:description" content={ogDescription} />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Hona Financial" />
+  <meta property="og:url" content={ogUrl ?? pageUrl} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+  {ogImage && <meta name="twitter:title" content={ogTitle} />}
+  {ogImage && <meta name="twitter:description" content={ogDescription} />}
+  {ogImage && <meta name="twitter:image" content={ogImage} />}
 
   <link rel="icon" href="/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

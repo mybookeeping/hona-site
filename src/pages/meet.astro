@@ -2,31 +2,37 @@
 import Base from "../layouts/Base.astro";
 import Start from "../components/Start.astro";
 
-const DEFAULT_GRANT_CODE = "HONA26";
+// Conference defaults — change these two between conferences, then
+// rebuild and redeploy. The printed QR code just encodes a bare
+// https://honafinancial.com/meet and never changes.
+const DEFAULT_SRC = "bpcon";
+const DEFAULT_GRANT = "HONA26";
 ---
 
 <Base
   title="We just met — Hona"
   description="Hona tells a contractor what a job is costing while there's still time to do something about it. Free for lenders, always."
   noindex={true}
+  ogTitle="Hona — the Fix & Flip Workbook"
+  ogDescription="Work breakdown, schedule and Gantt, draw schedule, deal underwriting, and the cash you carry between draws. Free."
+  ogImage="https://honafinancial.com/og-meet.png"
+  ogUrl="https://honafinancial.com/meet"
 >
 
   <section class="band-ink">
     <div class="shell">
       <p class="eyebrow eyebrow--brass">We just met.</p>
-      <h1>Hona tells a contractor what a job is costing while there's still time to do something about it.</h1>
+      <h1>Hona is a financial operating system for project-based builds.</h1>
       <p>
-        Scan the receipt at the counter. It lands on the right phase and
-        category before you're out of the parking lot.
+        It tells you what a job is costing while there's still time to do
+        something about it.
       </p>
-      <p>
-        Watch each phase against its budget. Not at closeout. Not in April.
-        Today.
-      </p>
-      <p>
-        When the work is done, your lender approves the draw from their
-        phone — with the photos and the numbers already attached.
-      </p>
+      <div class="audience-pair">
+        <p><strong>Investors</strong> — a plug-and-play rehab structure if
+        you don't have a construction background.</p>
+        <p><strong>Contractors</strong> — every receipt lands in a phase,
+        and your lender sees the draw without a phone call.</p>
+      </div>
     </div>
   </section>
 
@@ -44,10 +50,28 @@ const DEFAULT_GRANT_CODE = "HONA26";
 
   <section class="band-cream signup-section">
     <div class="shell">
-      <div class="offer grant-offer">
+      <div id="meetConfig" data-default-src={DEFAULT_SRC} hidden></div>
+
+      <div class="offer grant-offer" id="offerConference">
         <p class="eyebrow" style="margin-bottom:.75rem">Conference offer</p>
-        <p class="grant-code" id="grantCode">{DEFAULT_GRANT_CODE}</p>
+        <p class="grant-code" id="grantCode">{DEFAULT_GRANT}</p>
         <p>30 days free when you sign up with this code.</p>
+        <p class="offer-addon">
+          Plus the Fix &amp; Flip Workbook — free, and it downloads the
+          moment you submit.
+        </p>
+      </div>
+
+      <div class="offer workbook-offer" id="offerWorkbook" hidden>
+        <p class="eyebrow" style="margin-bottom:.75rem">Free — the Fix &amp; Flip Workbook</p>
+        <p>
+          Answer fourteen questions about the house, the money and your
+          terms. Untick the work this house doesn't need. Type in what your
+          subs quoted. It builds your budget, your schedule, your draw
+          schedule, the cash you carry between draws, and the most you
+          should pay for the house.
+        </p>
+        <p>Enter your details and it downloads on the next screen.</p>
       </div>
 
       <form id="signupForm" novalidate>
@@ -93,16 +117,20 @@ const DEFAULT_GRANT_CODE = "HONA26";
           Claim my 30 days
         </button>
 
-        <p class="founders-note">
+        <p class="founders-note" id="foundersNote">
           Founders pricing is limited to the first 50 subscribers, held for
           as long as the subscription remains active and continuous; if it
           lapses the rate is released and cannot be reclaimed.
         </p>
+        <p class="founders-note" id="workbookNote" hidden>
+          You'll also get 30 days free when Hona launches.
+        </p>
       </form>
 
       <div id="signupDone" hidden>
-        <p class="lede">You're in.</p>
-        <p>We'll email your download link the moment Hona is live.</p>
+        <p class="lede" id="doneLede">You're in.</p>
+        <p>Best opened on a desktop — it's a working model with live formulas, not a PDF.</p>
+        <div id="downloadLinks"></div>
       </div>
     </div>
   </section>
@@ -149,9 +177,14 @@ const DEFAULT_GRANT_CODE = "HONA26";
     border-bottom: 1px solid var(--brass);
   }
 
+  .audience-pair { margin-top: 1.5rem; }
+  .audience-pair p { margin: 0 0 .75rem; }
+  .audience-pair p:last-child { margin-bottom: 0; }
+
   .signup-section .shell { max-width: 30rem; }
 
-  .grant-offer { text-align: left; }
+  .grant-offer, .workbook-offer { text-align: left; }
+  .offer-addon { font-size: .85rem; color: var(--walnut-tx); margin: .75rem 0 0; }
   .grant-code {
     font-family: var(--display);
     font-weight: 800;
@@ -246,8 +279,21 @@ const DEFAULT_GRANT_CODE = "HONA26";
   import { supabase } from "../lib/supabase";
 
   (function () {
+    // Ship Part 1 now; Part 2 is a deliberate follow-up email to the
+    // list. Adding it later is just another entry in this array.
+    var WORKBOOKS = [
+      { slug: "part1", filename: "Hona_Fix_and_Flip_Workbook.xlsx", label: "Download the workbook" },
+    ];
+
+    var params = new URLSearchParams(location.search);
+    var mode = params.get("offer") === "workbook" ? "workbook" : "conference";
+
+    var defaultSrc = document.getElementById("meetConfig").dataset.defaultSrc;
+    var rawSrc = (params.get("src") || "").trim().toLowerCase().slice(0, 40);
+    var source = rawSrc || defaultSrc;
+
     var codeEl = document.getElementById("grantCode");
-    var raw = (new URLSearchParams(location.search).get("c") || "").toUpperCase();
+    var raw = (params.get("c") || "").toUpperCase();
     if (/^[A-Z0-9]{4,12}$/.test(raw)) codeEl.textContent = raw;
     var grantCode = codeEl.textContent;
 
@@ -255,9 +301,49 @@ const DEFAULT_GRANT_CODE = "HONA26";
     var submitBtn = document.getElementById("signupSubmit");
     var msgEl = document.getElementById("signupMsg");
     var doneEl = document.getElementById("signupDone");
+    var doneLedeEl = document.getElementById("doneLede");
+    var downloadLinksEl = document.getElementById("downloadLinks");
+
+    var submitLabel = "Claim my 30 days";
+    var doneLede = "You're in. Here's the workbook while you wait.";
+
+    if (mode === "workbook") {
+      document.getElementById("offerConference").hidden = true;
+      document.getElementById("offerWorkbook").hidden = false;
+      document.getElementById("foundersNote").hidden = true;
+      document.getElementById("workbookNote").hidden = false;
+      submitLabel = "Send me the workbook";
+      doneLede = "Here it is.";
+    }
+    submitBtn.textContent = submitLabel;
 
     function showMsg(text) {
       msgEl.innerHTML = '<p class="signup-msg signup-msg--bad">' + text + "</p>";
+    }
+
+    function renderDownloadLinks(signupId) {
+      downloadLinksEl.innerHTML = WORKBOOKS.map(function (w) {
+        return (
+          '<p><a class="btn btn--ink" href="/downloads/' + w.filename +
+          '" download="' + w.filename + '" data-workbook="' + w.slug + '">' +
+          w.label + "</a></p>"
+        );
+      }).join("");
+
+      downloadLinksEl.querySelectorAll("a[data-workbook]").forEach(function (a) {
+        a.addEventListener("click", function () {
+          // Fire-and-forget: never block or fail the download over this.
+          supabase
+            .from("meet_downloads")
+            .insert({
+              id: crypto.randomUUID(),
+              signup_id: signupId,
+              workbook: a.getAttribute("data-workbook"),
+            })
+            .then(function () {})
+            .catch(function () {});
+        });
+      });
     }
 
     form.addEventListener("submit", function (ev) {
@@ -273,6 +359,7 @@ const DEFAULT_GRANT_CODE = "HONA26";
       if (website) {
         // Honeypot tripped — behave as if it worked, write nothing.
         form.hidden = true;
+        doneLedeEl.textContent = doneLede;
         doneEl.hidden = false;
         return;
       }
@@ -284,24 +371,30 @@ const DEFAULT_GRANT_CODE = "HONA26";
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending";
 
+      var signupId = crypto.randomUUID();
+
       supabase
         .from("meet_signups")
         .insert({
+          id: signupId,
           name: name,
           email: email,
           phone: phone || null,
           role: roleInput.value,
           grant_code: grantCode,
+          source: source,
         })
         .then(function (r) {
           if (r.error) throw r.error;
           form.hidden = true;
+          doneLedeEl.textContent = doneLede;
           doneEl.hidden = false;
+          renderDownloadLinks(signupId);
         })
         .catch(function () {
           showMsg("Something went wrong. Try again, or email jared@honafinancial.com directly.");
           submitBtn.disabled = false;
-          submitBtn.textContent = "Claim my 30 days";
+          submitBtn.textContent = submitLabel;
         });
     });
   })();
