@@ -83,11 +83,6 @@ const DEFAULT_GRANT = "HONA26";
           <label for="email">Email</label>
           <input id="email" name="email" type="email" autocomplete="email" required />
         </div>
-        <div class="field">
-          <label for="phone">Phone</label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" />
-        </div>
-
         <fieldset class="role-group">
           <legend>I'm a</legend>
           <div class="role-options">
@@ -353,7 +348,6 @@ const DEFAULT_GRANT = "HONA26";
       var website = form.elements.website.value;
       var name = form.elements.name.value.trim();
       var email = form.elements.email.value.trim();
-      var phone = form.elements.phone.value.trim();
       var roleInput = form.querySelector('input[name="role"]:checked');
 
       if (website) {
@@ -373,18 +367,26 @@ const DEFAULT_GRANT = "HONA26";
 
       var signupId = crypto.randomUUID();
 
-      supabase
-        .from("meet_signups")
-        .insert({
+      var timeoutId;
+      var timeout = new Promise(function (_, reject) {
+        timeoutId = setTimeout(function () {
+          reject(new Error("timeout"));
+        }, 15000);
+      });
+
+      Promise.race([
+        supabase.from("meet_signups").insert({
           id: signupId,
           name: name,
           email: email,
-          phone: phone || null,
           role: roleInput.value,
           grant_code: grantCode,
           source: source,
-        })
+        }),
+        timeout,
+      ])
         .then(function (r) {
+          clearTimeout(timeoutId);
           if (r.error) throw r.error;
           form.hidden = true;
           doneLedeEl.textContent = doneLede;
@@ -392,6 +394,7 @@ const DEFAULT_GRANT = "HONA26";
           renderDownloadLinks(signupId);
         })
         .catch(function () {
+          clearTimeout(timeoutId);
           showMsg("Something went wrong. Try again, or email jared@honafinancial.com directly.");
           submitBtn.disabled = false;
           submitBtn.textContent = submitLabel;
