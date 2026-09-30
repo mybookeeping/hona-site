@@ -126,6 +126,7 @@ const DEFAULT_GRANT = "HONA26";
         <p class="lede" id="doneLede">You're in.</p>
         <p>Best opened on a desktop — it's a working model with live formulas, not a PDF.</p>
         <div id="downloadLinks"></div>
+        <p class="workbook-email-note" id="workbookEmailNote" hidden>A copy has also been sent to your email.</p>
       </div>
     </div>
   </section>
@@ -268,6 +269,7 @@ const DEFAULT_GRANT = "HONA26";
   }
 
   #signupDone { text-align: left; margin-top: 2rem; }
+  .workbook-email-note { font-size: .85rem; color: var(--walnut-tx); margin: .75rem 0 0; }
 </style>
 
 <script>
@@ -298,6 +300,7 @@ const DEFAULT_GRANT = "HONA26";
     var doneEl = document.getElementById("signupDone");
     var doneLedeEl = document.getElementById("doneLede");
     var downloadLinksEl = document.getElementById("downloadLinks");
+    var workbookEmailNoteEl = document.getElementById("workbookEmailNote");
 
     var submitLabel = "Claim my 30 days";
     var doneLede = "You're in. Here's the workbook while you wait.";
@@ -392,6 +395,32 @@ const DEFAULT_GRANT = "HONA26";
           doneLedeEl.textContent = doneLede;
           doneEl.hidden = false;
           renderDownloadLinks(signupId);
+
+          // Best-effort only: the download already happened, so a failure
+          // here must never surface an error or touch the signup UI.
+          var emailTimeoutId;
+          var emailTimeout = new Promise(function (_, reject) {
+            emailTimeoutId = setTimeout(function () {
+              reject(new Error("timeout"));
+            }, 10000);
+          });
+
+          Promise.race([
+            supabase.functions.invoke("send-workbook", {
+              body: { signup_id: signupId },
+            }),
+            emailTimeout,
+          ])
+            .then(function (r) {
+              clearTimeout(emailTimeoutId);
+              if (r.error) throw r.error;
+              if (r.data && r.data.sent) {
+                workbookEmailNoteEl.hidden = false;
+              }
+            })
+            .catch(function () {
+              clearTimeout(emailTimeoutId);
+            });
         })
         .catch(function () {
           clearTimeout(timeoutId);
