@@ -2,11 +2,10 @@
 import Base from "../layouts/Base.astro";
 import Start from "../components/Start.astro";
 
-// Conference defaults — change these two between conferences, then
-// rebuild and redeploy. The printed QR code just encodes a bare
+// Conference default — change between conferences, then rebuild and
+// redeploy. The printed QR code just encodes a bare
 // https://honafinancial.com/meet and never changes.
 const DEFAULT_SRC = "bpcon";
-const DEFAULT_GRANT = "HONA26";
 ---
 
 <Base
@@ -52,18 +51,23 @@ const DEFAULT_GRANT = "HONA26";
     <div class="shell">
       <div id="meetConfig" data-default-src={DEFAULT_SRC} hidden></div>
 
-      <div class="offer grant-offer" id="offerConference">
-        <p class="eyebrow" style="margin-bottom:.75rem">Conference offer</p>
-        <p class="grant-code" id="grantCode">{DEFAULT_GRANT}</p>
-        <p>30 days free when you sign up with this code.</p>
-        <p class="offer-addon">
-          Plus the Fix &amp; Flip Workbook — free, and it downloads the
-          moment you submit.
+      <div class="offer app-offer">
+        <p class="eyebrow" style="margin-bottom:.75rem">Hona</p>
+        <p>
+          Hona is a financial operating system for project-based builds. It
+          tells you what a job is costing while there's still time to do
+          something about it.
         </p>
+        <div style="margin-top:1.25rem">
+          <Start />
+        </div>
+        <p class="offer-addon">30 days free. No code needed.</p>
       </div>
 
-      <div class="offer workbook-offer" id="offerWorkbook" hidden>
-        <p class="eyebrow" style="margin-bottom:.75rem">Free — the Fix &amp; Flip Workbook</p>
+      <hr class="rule" style="margin:2.5rem 0" />
+
+      <div class="offer workbook-offer">
+        <p class="eyebrow" style="margin-bottom:.75rem">Free: the Fix &amp; Flip Workbook</p>
         <p>
           Answer fourteen questions about the house, the money and your
           terms. Untick the work this house doesn't need. Type in what your
@@ -109,16 +113,12 @@ const DEFAULT_GRANT = "HONA26";
         <div id="signupMsg"></div>
 
         <button id="signupSubmit" type="submit" class="btn btn--brass" style="width:100%;justify-content:center">
-          Claim my 30 days
+          Send me the workbook
         </button>
-
-        <p class="founders-note" id="workbookNote" hidden>
-          You'll also get 30 days free when Hona launches.
-        </p>
       </form>
 
       <div id="signupDone" hidden>
-        <p class="lede" id="doneLede">You're in.</p>
+        <p class="lede" id="doneLede">Here it is.</p>
         <p>Best opened on a desktop — it's a working model with live formulas, not a PDF.</p>
         <div id="downloadLinks"></div>
         <p class="workbook-email-note" id="workbookEmailNote" hidden>A copy has also been sent to your email.</p>
@@ -174,17 +174,8 @@ const DEFAULT_GRANT = "HONA26";
 
   .signup-section .shell { max-width: 30rem; }
 
-  .grant-offer, .workbook-offer { text-align: left; }
+  .app-offer, .workbook-offer { text-align: left; }
   .offer-addon { font-size: .85rem; color: var(--walnut-tx); margin: .75rem 0 0; }
-  .grant-code {
-    font-family: var(--display);
-    font-weight: 800;
-    font-stretch: 120%;
-    font-size: 1.9rem;
-    letter-spacing: .04em;
-    color: var(--brass-l);
-    margin: 0 0 .6rem;
-  }
 
   #signupForm { text-align: left; margin-top: 2rem; }
 
@@ -254,8 +245,6 @@ const DEFAULT_GRANT = "HONA26";
 
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
-  .founders-note { font-size: .85rem; color: var(--walnut-tx); margin-top: 1.5rem; }
-
   .signup-msg { padding: .85rem 1rem; border-radius: 2px; font-size: .95rem; margin-top: 1.25rem; text-align: left; }
   .signup-msg--bad {
     background: color-mix(in srgb, var(--maroon) 10%, white);
@@ -278,16 +267,10 @@ const DEFAULT_GRANT = "HONA26";
     ];
 
     var params = new URLSearchParams(location.search);
-    var mode = params.get("offer") === "workbook" ? "workbook" : "conference";
 
     var defaultSrc = document.getElementById("meetConfig").dataset.defaultSrc;
     var rawSrc = (params.get("src") || "").trim().toLowerCase().slice(0, 40);
     var source = rawSrc || defaultSrc;
-
-    var codeEl = document.getElementById("grantCode");
-    var raw = (params.get("c") || "").toUpperCase();
-    if (/^[A-Z0-9]{4,12}$/.test(raw)) codeEl.textContent = raw;
-    var grantCode = codeEl.textContent;
 
     var form = document.getElementById("signupForm");
     var submitBtn = document.getElementById("signupSubmit");
@@ -297,17 +280,8 @@ const DEFAULT_GRANT = "HONA26";
     var downloadLinksEl = document.getElementById("downloadLinks");
     var workbookEmailNoteEl = document.getElementById("workbookEmailNote");
 
-    var submitLabel = "Claim my 30 days";
-    var doneLede = "You're in. Here's the workbook while you wait.";
-
-    if (mode === "workbook") {
-      document.getElementById("offerConference").hidden = true;
-      document.getElementById("offerWorkbook").hidden = false;
-      document.getElementById("workbookNote").hidden = false;
-      submitLabel = "Send me the workbook";
-      doneLede = "Here it is.";
-    }
-    submitBtn.textContent = submitLabel;
+    var submitLabel = "Send me the workbook";
+    var doneLede = "Here it is.";
 
     function showMsg(text) {
       msgEl.innerHTML = '<p class="signup-msg signup-msg--bad">' + text + "</p>";
@@ -377,7 +351,7 @@ const DEFAULT_GRANT = "HONA26";
           name: name,
           email: email,
           role: roleInput.value,
-          grant_code: grantCode,
+          grant_code: null,
           source: source,
         }),
         timeout,
