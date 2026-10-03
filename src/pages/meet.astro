@@ -112,11 +112,6 @@ const DEFAULT_GRANT = "HONA26";
           Claim my 30 days
         </button>
 
-        <p class="founders-note" id="foundersNote">
-          Founders pricing is limited to the first 50 subscribers, held for
-          as long as the subscription remains active and continuous; if it
-          lapses the rate is released and cannot be reclaimed.
-        </p>
         <p class="founders-note" id="workbookNote" hidden>
           You'll also get 30 days free when Hona launches.
         </p>
@@ -308,7 +303,6 @@ const DEFAULT_GRANT = "HONA26";
     if (mode === "workbook") {
       document.getElementById("offerConference").hidden = true;
       document.getElementById("offerWorkbook").hidden = false;
-      document.getElementById("foundersNote").hidden = true;
       document.getElementById("workbookNote").hidden = false;
       submitLabel = "Send me the workbook";
       doneLede = "Here it is.";

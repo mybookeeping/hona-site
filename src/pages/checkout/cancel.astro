@@ -2,7 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Compass from "../../components/Compass.astro";
 import OpenHona from "../../components/OpenHona.astro";
-import { STRIPE, CHECKOUT_LIVE } from "../../config/checkout";
+import { APP_STORE_URL } from "../../config/checkout";
 ---
 <Base title="Checkout cancelled — Hona" noindex={true}>
   <section class="band-cream on-cream slip">
@@ -14,13 +14,10 @@ import { STRIPE, CHECKOUT_LIVE } from "../../config/checkout";
       <div class="offer">
         <p class="eyebrow" style="margin-bottom:.75rem">Keep your records</p>
         <p style="margin:0 0 1.25rem">
-          If you would rather not subscribe but want your projects, receipts and
-          draw history to stay where they are, View&nbsp;Only keeps everything
-          readable for $5 a month.
+          Your projects, receipts and draw history stay exactly where they are.
+          You can manage or change your plan anytime from inside the app.
         </p>
-        {CHECKOUT_LIVE
-          ? <a class="btn btn--ink" href={STRIPE.viewOnly}>Switch to View Only &mdash; $5/mo</a>
-          : <span class="btn btn--ink is-soon" aria-disabled="true">View Only &mdash; coming soon</span>}
+        <a class="btn btn--ink" href={APP_STORE_URL}>Download on the App Store</a>
       </div>
 
       <OpenHona

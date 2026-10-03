@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import Compass from "../components/Compass.astro";
 import Start from "../components/Start.astro";
-import { CHECKOUT_LIVE, startUrl, startLabel } from "../config/checkout";
+import { APP_STORE_URL } from "../config/checkout";
 
 interface Props {
   title: string;
@@ -93,7 +93,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site);
           <ul>
             <li><a href="/#how">How it works</a></li>
             <li><a href="/lenders">For lenders</a></li>
-            <li>{CHECKOUT_LIVE ? <a href={startUrl}>{startLabel}</a> : <span style="opacity:.6">{startLabel} — coming soon</span>}</li>
+            <li><a href={APP_STORE_URL}>Download on the App Store</a></li>
           </ul>
         </div>
 

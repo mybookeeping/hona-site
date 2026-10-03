@@ -2,7 +2,6 @@
 import Base from "../layouts/Base.astro";
 import StateDial from "../components/StateDial.astro";
 import Start from "../components/Start.astro";
-import { FOUNDERS_OPEN, CHECKOUT_LIVE } from "../config/checkout";
 ---
 
 <Base title="Hona — Know what a job is costing while you can still do something about it">
@@ -166,14 +165,9 @@ import { FOUNDERS_OPEN, CHECKOUT_LIVE } from "../config/checkout";
   <section class="band-ink" id="start">
     <div class="shell" style="text-align:center">
       <p class="eyebrow eyebrow--brass">Get started</p>
-      <h2 style="max-width:20ch;margin-inline:auto">Fourteen days free. Cancel from inside the app.</h2>
+      <h2 style="max-width:20ch;margin-inline:auto">Thirty days free. Cancel from inside the app.</h2>
       <p style="margin:1.75rem auto 0;max-width:46ch">
-        {FOUNDERS_OPEN
-          ? "Standard is $29 a month. The first fifty contractors keep Founders pricing at $19 a month for as long as they stay. Lender access is free for everyone, always."
-          : "Standard is $29 a month. Lender access is free for everyone, always."}
-      </p>
-      <p style="margin:1rem auto 0;max-width:46ch;font-size:.95rem;opacity:.7">
-        {CHECKOUT_LIVE ? "" : "Hona is in final testing. Subscriptions open when the app reaches the App Store and Google Play."}
+        Standard is $29 a month. Lender access is free for everyone, always.
       </p>
       <div class="btn-row" style="justify-content:center">
         <Start />
